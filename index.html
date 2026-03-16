@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Sangeetha Makeup Artist</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{
+    --rose:#c8735a;--rose-light:#f0d4ca;--rose-dark:#9e4f38;
+    --gold:#c9a96e;--gold-light:#f5e8d0;
+    --cream:#fdf8f3;--white:#fff;
+    --text:#2c1f1a;--muted:#7a5c53;
+    --font-display:'Cormorant Garamond',serif;
+    --font-body:'DM Sans',sans-serif;
+    --shadow:0 8px 40px rgba(44,31,26,0.12);
+  }
+  body{font-family:var(--font-body);background:var(--cream);color:var(--text);min-height:100vh}
+
+  /* ── PAGES ── */
+  .page{display:none;min-height:100vh}
+  .page.active{display:block}
+
+  /* ── HERO BANNER ── */
+  .hero{
+    background: linear-gradient(135deg,#2c1f1a 0%,#5c3328 50%,#9e4f38 100%);
+    padding:48px 24px 40px;text-align:center;position:relative;overflow:hidden
+  }
+  .hero::before{
+    content:'';position:absolute;inset:0;
+    background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c8735a' fill-opacity='0.08'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  .hero-logo{
+    font-family:var(--font-display);font-size:clamp(2rem,6vw,3.5rem);
+    font-weight:300;color:#fff;letter-spacing:0.05em;line-height:1.1;
+    position:relative
+  }
+  .hero-logo span{color:var(--gold);font-style:italic}
+  .hero-sub{
+    font-family:var(--font-body);font-size:13px;letter-spacing:0.25em;
+    text-transform:uppercase;color:rgba(255,255,255,0.65);margin-top:10px;
+    position:relative
+  }
+  .hero-badge{
+    display:inline-flex;align-items:center;gap:6px;
+    background:rgba(201,169,110,0.2);border:1px solid rgba(201,169,110,0.4);
+    color:var(--gold-light);font-size:11px;letter-spacing:0.15em;
+    text-transform:uppercase;padding:6px 16px;border-radius:999px;
+    margin-top:16px;position:relative
+  }
+
+  /* ── CONTAINER ── */
+  .container{max-width:700px;margin:0 auto;padding:32px 20px 60px}
+
+  /* ── SECTION CARDS ── */
+  .card{
+    background:var(--white);border-radius:16px;
+    box-shadow:var(--shadow);padding:28px;margin-bottom:20px;
+    border:1px solid rgba(200,115,90,0.1)
+  }
+  .card-title{
+    font-family:var(--font-display);font-size:1.45rem;font-weight:400;
+    color:var(--rose-dark);margin-bottom:4px;display:flex;align-items:center;gap:10px
+  }
+  .card-title .icon{font-size:1.1rem}
+  .card-desc{font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.6}
+
+  /* ── FORM ELEMENTS ── */
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+  .form-row.single{grid-template-columns:1fr}
+  .form-group{display:flex;flex-direction:column;gap:6px}
+  label{font-size:12px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted)}
+  input,select,textarea{
+    font-family:var(--font-body);font-size:14px;
+    border:1.5px solid rgba(200,115,90,0.25);border-radius:10px;
+    padding:11px 14px;background:var(--cream);color:var(--text);
+    transition:border-color .2s,box-shadow .2s;outline:none;width:100%
+  }
+  input:focus,select:focus,textarea:focus{
+    border-color:var(--rose);box-shadow:0 0 0 3px rgba(200,115,90,0.12)
+  }
+  textarea{resize:vertical;min-height:80px}
+  select{cursor:pointer}
+
+  /* ── SERVICE PILLS ── */
+  .services-grid{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:6px}
+  .service-pill{
+    display:flex;align-items:center;gap:6px;
+    padding:8px 14px;border-radius:999px;
+    border:1.5px solid rgba(200,115,90,0.3);
+    background:var(--cream);cursor:pointer;
+    font-size:13px;color:var(--muted);font-family:var(--font-body);
+    transition:all .2s;user-select:none
+  }
+  .service-pill:hover{border-color:var(--rose);color:var(--rose)}
+  .service-pill.selected{
+    background:var(--rose);border-color:var(--rose);
+    color:#fff;font-weight:500
+  }
+
+  /* ── STAR RATING ── */
+  .stars{display:flex;gap:8px;margin-bottom:10px}
+  .star{
+    font-size:28px;cursor:pointer;color:#ddd;
+    transition:color .15s,transform .15s
+  }
+  .star:hover,.star.lit{color:var(--gold)}
+  .star:hover{transform:scale(1.2)}
+
+  /* ── PAYMENT ── */
+  .pay-methods{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+  .pay-btn{
+    display:flex;flex-direction:column;align-items:center;gap:6px;
+    padding:16px 8px;border-radius:12px;border:2px solid rgba(200,115,90,0.2);
+    background:var(--cream);cursor:pointer;transition:all .2s;
+    font-size:12px;font-weight:500;color:var(--muted);text-align:center
+  }
+  .pay-btn:hover{border-color:var(--rose);color:var(--rose);background:#fff}
+  .pay-btn.selected{border-color:var(--rose);background:var(--rose-light);color:var(--rose-dark)}
+  .pay-icon{font-size:24px}
+  .amount-box{
+    background:linear-gradient(135deg,var(--rose-light),var(--gold-light));
+    border-radius:12px;padding:16px 20px;
+    display:flex;justify-content:space-between;align-items:center
+  }
+  .amount-label{font-size:13px;color:var(--muted);font-weight:500}
+  .amount-value{font-family:var(--font-display);font-size:1.8rem;color:var(--rose-dark);font-weight:600}
+
+  /* ── UPI FIELD ── */
+  .upi-field{display:none;margin-top:12px}
+  .upi-field.show{display:block}
+
+  /* ── SUBMIT BUTTON ── */
+  .btn-submit{
+    width:100%;padding:16px;border:none;border-radius:12px;cursor:pointer;
+    font-family:var(--font-display);font-size:1.15rem;font-weight:600;
+    letter-spacing:0.05em;
+    background:linear-gradient(135deg,var(--rose) 0%,var(--rose-dark) 100%);
+    color:#fff;box-shadow:0 4px 20px rgba(200,115,90,0.4);
+    transition:transform .15s,box-shadow .15s;margin-top:8px
+  }
+  .btn-submit:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(200,115,90,0.5)}
+  .btn-submit:active{transform:translateY(0)}
+
+  /* ── OUTPUT PAGE ── */
+  .output-hero{
+    background:linear-gradient(135deg,#2c1f1a 0%,#5c3328 100%);
+    padding:48px 24px 36px;text-align:center
+  }
+  .success-ring{
+    width:80px;height:80px;border-radius:50%;
+    background:rgba(201,169,110,0.2);border:2px solid var(--gold);
+    display:inline-flex;align-items:center;justify-content:center;
+    font-size:36px;margin-bottom:16px
+  }
+  .output-title{font-family:var(--font-display);font-size:2rem;color:#fff;font-weight:300}
+  .output-sub{font-size:13px;color:rgba(255,255,255,0.6);margin-top:6px;letter-spacing:0.1em}
+
+  /* ── SUMMARY CARD ── */
+  .summary-grid{display:grid;gap:14px}
+  .summary-row{display:flex;justify-content:space-between;align-items:flex-start;padding:12px 0;border-bottom:1px solid rgba(200,115,90,0.1)}
+  .summary-row:last-child{border-bottom:none}
+  .summary-key{font-size:12px;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);font-weight:500;min-width:120px}
+  .summary-val{font-size:14px;color:var(--text);text-align:right;font-weight:400}
+  .summary-val.highlight{color:var(--rose-dark);font-family:var(--font-display);font-size:1.1rem}
+
+  /* ── REVIEW DISPLAY ── */
+  .review-display{background:var(--rose-light);border-radius:12px;padding:16px;margin-top:4px}
+  .review-stars-display{color:var(--gold);font-size:20px;margin-bottom:6px}
+  .review-text-display{font-style:italic;font-family:var(--font-display);font-size:1rem;color:var(--rose-dark)}
+
+  /* ── GOOGLE REVIEW BTN ── */
+  .google-btn{
+    display:flex;align-items:center;justify-content:center;gap:10px;
+    width:100%;padding:14px;border-radius:12px;
+    border:2px solid #4285f4;background:#fff;cursor:pointer;
+    font-family:var(--font-body);font-size:14px;font-weight:500;color:#4285f4;
+    transition:all .2s;margin-top:4px
+  }
+  .google-btn:hover{background:#4285f4;color:#fff}
+  .google-logo{font-size:18px}
+
+  /* ── BACK BTN ── */
+  .btn-back{
+    display:inline-flex;align-items:center;gap:8px;
+    background:transparent;border:2px solid rgba(255,255,255,0.3);
+    color:#fff;padding:10px 20px;border-radius:999px;cursor:pointer;
+    font-family:var(--font-body);font-size:13px;margin-top:16px;
+    transition:all .2s
+  }
+  .btn-back:hover{background:rgba(255,255,255,0.1);border-color:rgba(255,255,255,0.6)}
+
+  /* ── DIVIDER ── */
+  .divider{display:flex;align-items:center;gap:12px;margin:4px 0 20px}
+  .divider::before,.divider::after{content:'';flex:1;height:1px;background:rgba(200,115,90,0.2)}
+  .divider-text{font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted)}
+
+  /* ── STATUS BADGE ── */
+  .status-badge{
+    display:inline-block;background:#e8f5e9;color:#2e7d32;
+    border:1px solid #a5d6a7;border-radius:999px;
+    font-size:12px;font-weight:500;padding:4px 14px;letter-spacing:0.05em
+  }
+
+  @media(max-width:520px){
+    .form-row{grid-template-columns:1fr}
+    .pay-methods{grid-template-columns:1fr 1fr}
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     PAGE 1 — BOOKING / INPUT
+═══════════════════════════════════════════ -->
+<div class="page active" id="page-input">
+
+  <div class="hero">
+    <div class="hero-logo">Sangeetha <span>Makeup Artist</span></div>
+    <div class="hero-sub">Bridal · Editorial · Special Occasions</div>
+    <div class="hero-badge">✦ Book Your Appointment</div>
+  </div>
+
+  <div class="container">
+
+    <!-- ── APPOINTMENT CARD ── -->
+    <div class="card">
+      <div class="card-title"><span class="icon">📅</span> Appointment Details</div>
+      <div class="card-desc">Fill in your details to schedule your session with Sangeetha.</div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Full Name *</label>
+          <input type="text" id="inp-name" placeholder="Your full name"/>
+        </div>
+        <div class="form-group">
+          <label>Phone Number *</label>
+          <input type="tel" id="inp-phone" placeholder="+91 98765 43210"/>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" id="inp-email" placeholder="you@email.com"/>
+        </div>
+        <div class="form-group">
+          <label>Date *</label>
+          <input type="date" id="inp-date"/>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Preferred Time *</label>
+          <select id="inp-time">
+            <option value="">Select time slot</option>
+            <option>9:00 AM – 10:30 AM</option>
+            <option>10:30 AM – 12:00 PM</option>
+            <option>12:00 PM – 1:30 PM</option>
+            <option>2:00 PM – 3:30 PM</option>
+            <option>3:30 PM – 5:00 PM</option>
+            <option>5:00 PM – 6:30 PM</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Occasion *</label>
+          <select id="inp-occasion">
+            <option value="">Select occasion</option>
+            <option>Bridal Makeup</option>
+            <option>Engagement</option>
+            <option>Party / Reception</option>
+            <option>Photoshoot</option>
+            <option>Saree Draping</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group" style="margin-bottom:14px">
+        <label>Select Service(s) *</label>
+        <div class="services-grid" id="services-grid">
+          <div class="service-pill" onclick="toggleService(this,'Bridal Makeup')">👰 Bridal</div>
+          <div class="service-pill" onclick="toggleService(this,'HD Makeup')">✨ HD Makeup</div>
+          <div class="service-pill" onclick="toggleService(this,'Airbrush')">💨 Airbrush</div>
+          <div class="service-pill" onclick="toggleService(this,'Saree Draping')">🌸 Saree Draping</div>
+          <div class="service-pill" onclick="toggleService(this,'Hair Styling')">💇 Hair Styling</div>
+          <div class="service-pill" onclick="toggleService(this,'Mehendi')">🌿 Mehendi</div>
+          <div class="service-pill" onclick="toggleService(this,'Trial Makeup')">🪞 Trial</div>
+          <div class="service-pill" onclick="toggleService(this,'Party Makeup')">🎉 Party</div>
+        </div>
+      </div>
+
+      <div class="form-row single">
+        <div class="form-group">
+          <label>Special Requests / Notes</label>
+          <textarea id="inp-notes" placeholder="Any skin concerns, preferences, references, or special instructions..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── GOOGLE REVIEW CARD ── -->
+    <div class="card">
+      <div class="card-title"><span class="icon">⭐</span> Share Your Experience</div>
+      <div class="card-desc">Already visited Sangeetha? Leave a quick review to help others.</div>
+
+      <label style="margin-bottom:8px;display:block">Your Rating</label>
+      <div class="stars" id="stars">
+        <span class="star" onclick="setRating(1)">★</span>
+        <span class="star" onclick="setRating(2)">★</span>
+        <span class="star" onclick="setRating(3)">★</span>
+        <span class="star" onclick="setRating(4)">★</span>
+        <span class="star" onclick="setRating(5)">★</span>
+      </div>
+
+      <div class="form-row single">
+        <div class="form-group">
+          <label>Review (optional)</label>
+          <textarea id="inp-review" placeholder="Tell us about your experience with Sangeetha Makeup Artist..." style="min-height:90px"></textarea>
+        </div>
+      </div>
+
+      <button class="google-btn" onclick="openGoogleReview()">
+        <span class="google-logo">G</span>
+        Also Post on Google Reviews
+      </button>
+    </div>
+
+    <!-- ── PAYMENT CARD ── -->
+    <div class="card">
+      <div class="card-title"><span class="icon">💳</span> Payment Method</div>
+      <div class="card-desc">Choose how you'd like to pay for your appointment.</div>
+
+      <div class="pay-methods">
+        <div class="pay-btn" id="pay-upi" onclick="selectPay('upi')">
+          <span class="pay-icon">📱</span>UPI / GPay
+        </div>
+        <div class="pay-btn" id="pay-card" onclick="selectPay('card')">
+          <span class="pay-icon">💳</span>Card
+        </div>
+        <div class="pay-btn" id="pay-cash" onclick="selectPay('cash')">
+          <span class="pay-icon">💵</span>Cash
+        </div>
+      </div>
+
+      <!-- UPI ID field -->
+      <div class="upi-field" id="upi-field">
+        <div class="form-group">
+          <label>UPI ID / Phone Number</label>
+          <input type="text" id="inp-upi" placeholder="yourname@upi or 9876543210"/>
+        </div>
+      </div>
+
+      <!-- Card fields -->
+      <div class="upi-field" id="card-field">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Card Number</label>
+            <input type="text" id="inp-card" placeholder="**** **** **** ****" maxlength="19"/>
+          </div>
+          <div class="form-group">
+            <label>Cardholder Name</label>
+            <input type="text" id="inp-cname" placeholder="Name on card"/>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Expiry</label>
+            <input type="text" id="inp-exp" placeholder="MM/YY" maxlength="5"/>
+          </div>
+          <div class="form-group">
+            <label>CVV</label>
+            <input type="password" id="inp-cvv" placeholder="***" maxlength="3"/>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:16px">
+        <div class="divider"><span class="divider-text">Amount Summary</span></div>
+        <div class="amount-box">
+          <div>
+            <div class="amount-label">Advance Booking Amount</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:2px">Balance payable on the day</div>
+          </div>
+          <div class="amount-value">₹ 500</div>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn-submit" onclick="submitForm()">✦ Confirm Appointment</button>
+
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════
+     PAGE 2 — CONFIRMATION / OUTPUT
+═══════════════════════════════════════════ -->
+<div class="page" id="page-output">
+
+  <div class="output-hero">
+    <div class="success-ring">✓</div>
+    <div class="output-title">Booking Confirmed!</div>
+    <div class="output-sub">Your appointment with Sangeetha Makeup Artist is set</div>
+    <button class="btn-back" onclick="goBack()">← Book Another Appointment</button>
+  </div>
+
+  <div class="container">
+
+    <!-- ── BOOKING SUMMARY ── -->
+    <div class="card">
+      <div class="card-title"><span class="icon">📋</span> Booking Summary</div>
+      <div style="margin-top:8px">
+        <span class="status-badge" id="out-status">✓ Confirmed</span>
+      </div>
+      <div class="summary-grid" style="margin-top:16px">
+        <div class="summary-row">
+          <span class="summary-key">Booking ID</span>
+          <span class="summary-val highlight" id="out-bookingid"></span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-key">Name</span>
+          <span class="summary-val" id="out-name"></span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-key">Phone</span>
+          <span class="summary-val" id="out-phone"></span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-key">Email</span>
+          <span class="summary-val" id="out-email"></span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-key">Date</span>
+          <span class="summary-val" id="out-date"></span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-key">Time Slot</span>
+          <span class="summary-val" id="out-time"></span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-key">Occasion</span>
+          <span class="summary-val" id="out-occasion"></span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-key">Services</span>
+          <span class="summary-val" id="out-services"></span>
+        </div>
+        <div class="summary-row" id="out-notes-row" style="display:none">
+          <span class="summary-key">Notes</span>
+          <span class="summary-val" id="out-notes" style="max-width:260px;text-align:right"></span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-key">Payment</span>
+          <span class="summary-val" id="out-payment"></span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-key">Amount Paid</span>
+          <span class="summary-val highlight">₹ 500 (Advance)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── REVIEW SUMMARY ── -->
+    <div class="card" id="out-review-card" style="display:none">
+      <div class="card-title"><span class="icon">⭐</span> Your Review</div>
+      <div class="review-display">
+        <div class="review-stars-display" id="out-stars-display"></div>
+        <div class="review-text-display" id="out-review-text"></div>
+      </div>
+      <div style="margin-top:14px;font-size:12px;color:var(--muted)">
+        Thank you for your feedback! It means a lot to us. 💝
+      </div>
+    </div>
+
+    <!-- ── CONTACT CARD ── -->
+    <div class="card">
+      <div class="card-title"><span class="icon">📍</span> Contact & Location</div>
+      <div class="summary-grid">
+        <div class="summary-row">
+          <span class="summary-key">Studio</span>
+          <span class="summary-val">Sangeetha Makeup Studio, Chennai</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-key">Phone</span>
+          <span class="summary-val">+91 98765 43210</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-key">Instagram</span>
+          <span class="summary-val">@sangeetha_makeupartist</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-key">WhatsApp</span>
+          <span class="summary-val">Message us for directions</span>
+        </div>
+      </div>
+      <button class="google-btn" onclick="openGoogleReview()" style="margin-top:14px">
+        <span class="google-logo">G</span>
+        Leave a Google Review
+      </button>
+    </div>
+
+    <div style="text-align:center;font-size:12px;color:var(--muted);margin-top:-8px;line-height:1.8">
+      A confirmation SMS/WhatsApp will be sent to your number.<br>
+      Please arrive 10 minutes before your appointment. 🌸
+    </div>
+
+  </div>
+</div>
+
+<script>
+// ── STATE ──
+let selectedServices = [];
+let selectedRating = 0;
+let selectedPayment = '';
+
+// ── SERVICE TOGGLE ──
+function toggleService(el, name) {
+  el.classList.toggle('selected');
+  if (el.classList.contains('selected')) {
+    selectedServices.push(name);
+  } else {
+    selectedServices = selectedServices.filter(s => s !== name);
+  }
+}
+
+// ── STAR RATING ──
+function setRating(n) {
+  selectedRating = n;
+  document.querySelectorAll('.star').forEach((s, i) => {
+    s.classList.toggle('lit', i < n);
+  });
+}
+
+// ── PAYMENT SELECT ──
+function selectPay(type) {
+  selectedPayment = type;
+  ['upi','card','cash'].forEach(t => {
+    document.getElementById('pay-'+t).classList.toggle('selected', t === type);
+  });
+  document.getElementById('upi-field').classList.toggle('show', type === 'upi');
+  document.getElementById('card-field').classList.toggle('show', type === 'card');
+}
+
+// ── FORMAT DATE ──
+function formatDate(d) {
+  if (!d) return '';
+  const [y,m,day] = d.split('-');
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return `${day} ${months[+m-1]} ${y}`;
+}
+
+// ── BOOKING ID ──
+function genBookingId() {
+  return 'SMA-' + Date.now().toString(36).toUpperCase().slice(-6);
+}
+
+// ── SUBMIT ──
+function submitForm() {
+  const name = document.getElementById('inp-name').value.trim();
+  const phone = document.getElementById('inp-phone').value.trim();
+  const date = document.getElementById('inp-date').value;
+  const time = document.getElementById('inp-time').value;
+  const occasion = document.getElementById('inp-occasion').value;
+
+  if (!name) { alert('Please enter your name.'); return; }
+  if (!phone) { alert('Please enter your phone number.'); return; }
+  if (!date) { alert('Please select a date.'); return; }
+  if (!time) { alert('Please select a time slot.'); return; }
+  if (!occasion) { alert('Please select an occasion.'); return; }
+  if (selectedServices.length === 0) { alert('Please select at least one service.'); return; }
+  if (!selectedPayment) { alert('Please choose a payment method.'); return; }
+
+  // Fill output page
+  document.getElementById('out-bookingid').textContent = genBookingId();
+  document.getElementById('out-name').textContent = name;
+  document.getElementById('out-phone').textContent = phone;
+  document.getElementById('out-email').textContent = document.getElementById('inp-email').value || '—';
+  document.getElementById('out-date').textContent = formatDate(date);
+  document.getElementById('out-time').textContent = time;
+  document.getElementById('out-occasion').textContent = occasion;
+  document.getElementById('out-services').textContent = selectedServices.join(', ');
+
+  const notes = document.getElementById('inp-notes').value.trim();
+  if (notes) {
+    document.getElementById('out-notes').textContent = notes;
+    document.getElementById('out-notes-row').style.display = 'flex';
+  }
+
+  const payLabels = {upi:'UPI / GPay',card:'Credit/Debit Card',cash:'Cash on Day'};
+  document.getElementById('out-payment').textContent = payLabels[selectedPayment] || selectedPayment;
+
+  // Review section
+  const reviewCard = document.getElementById('out-review-card');
+  const reviewText = document.getElementById('inp-review').value.trim();
+  if (selectedRating > 0 || reviewText) {
+    reviewCard.style.display = 'block';
+    document.getElementById('out-stars-display').textContent = '★'.repeat(selectedRating) + '☆'.repeat(5 - selectedRating);
+    document.getElementById('out-review-text').textContent = reviewText || '(No written review)';
+  }
+
+  // Switch page
+  document.getElementById('page-input').classList.remove('active');
+  document.getElementById('page-output').classList.add('active');
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+// ── BACK ──
+function goBack() {
+  document.getElementById('page-output').classList.remove('active');
+  document.getElementById('page-input').classList.add('active');
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+// ── GOOGLE REVIEW ──
+function openGoogleReview() {
+  alert('Redirecting to Google Reviews for Sangeetha Makeup Artist.\n\nReplace this with your actual Google Maps / Business review link.');
+  // In production: window.open('https://g.page/r/YOUR_PLACE_ID/review', '_blank');
+}
+
+// ── CARD FORMATTING ──
+document.addEventListener('DOMContentLoaded', () => {
+  const cardInp = document.getElementById('inp-card');
+  if (cardInp) {
+    cardInp.addEventListener('input', e => {
+      let v = e.target.value.replace(/\D/g,'').slice(0,16);
+      e.target.value = v.match(/.{1,4}/g)?.join(' ') || v;
+    });
+  }
+  const expInp = document.getElementById('inp-exp');
+  if (expInp) {
+    expInp.addEventListener('input', e => {
+      let v = e.target.value.replace(/\D/g,'').slice(0,4);
+      if (v.length >= 2) v = v.slice(0,2)+'/'+v.slice(2);
+      e.target.value = v;
+    });
+  }
+  // Set min date to today
+  const dateInp = document.getElementById('inp-date');
+  if (dateInp) {
+    dateInp.min = new Date().toISOString().split('T')[0];
+  }
+});
+</script>
+</body>
+</html>
