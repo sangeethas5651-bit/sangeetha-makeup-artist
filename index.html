@@ -167,7 +167,7 @@ textarea{resize:vertical;min-height:88px}
         <div class="prog-div"></div>
         <div class="prog-step" id="ps3"><div class="prog-num">3</div><span>Services</span></div>
         <div class="prog-div"></div>
-        <div class="prog-step" id="ps4"><div class="prog-num">4</div><span>Review</span></div>
+
       </div>
     </div>
   </header>
@@ -223,12 +223,16 @@ textarea{resize:vertical;min-height:88px}
             <label class="field-label">Time Slot <span class="req">*</span></label>
             <select id="inp-time">
               <option value="">Select a time slot</option>
+              <option>6:00 AM – 7:30 AM</option>
+              <option>7:30 AM – 9:00 AM</option>
               <option>9:00 AM – 10:30 AM</option>
               <option>10:30 AM – 12:00 PM</option>
               <option>12:00 PM – 1:30 PM</option>
-              <option>2:00 PM – 3:30 PM</option>
-              <option>3:30 PM – 5:00 PM</option>
-              <option>5:00 PM – 6:30 PM</option>
+              <option>1:30 PM – 3:00 PM</option>
+              <option>3:00 PM – 4:30 PM</option>
+              <option>4:30 PM – 6:00 PM</option>
+              <option>6:00 PM – 7:30 PM</option>
+              <option>7:30 PM – 9:00 PM</option>
             </select>
           </div>
         </div>
@@ -268,6 +272,8 @@ textarea{resize:vertical;min-height:88px}
           <div class="pill" onclick="togglePill(this,'Trial Makeup')">Trial Makeup</div>
           <div class="pill" onclick="togglePill(this,'Party Makeup')">Party Makeup</div>
           <div class="pill" onclick="togglePill(this,'Facial')">Facial</div>
+          <div class="pill" onclick="togglePill(this,'Dance Makeup')">Dance Makeup</div>
+          <div class="pill" onclick="togglePill(this,'Simple Makeup')">Simple Makeup</div>
         </div>
         <div style="margin-top:20px">
           <div class="field">
@@ -342,24 +348,6 @@ textarea{resize:vertical;min-height:88px}
       </div>
     </div>
 
-    <!-- REVIEW DISPLAY -->
-    <div class="section" id="review-section" style="display:none">
-      <div class="section-header">
-        <div class="section-num">✦</div>
-        <div class="section-title">Your Review</div>
-        <div class="section-line"></div>
-      </div>
-      <div class="card">
-        <div class="review-box">
-          <div class="review-stars-out" id="out-stars"></div>
-          <div class="review-quote" id="out-review-text"></div>
-        </div>
-        <p style="font-size:11px;color:var(--muted);margin-top:12px;line-height:1.7">
-          This review has been sent via WhatsApp to both you and Sangeetha.
-        </p>
-      </div>
-    </div>
-
     <!-- CONTACT -->
     <div class="section">
       <div class="section-header">
@@ -386,7 +374,6 @@ textarea{resize:vertical;min-height:88px}
 <script>
   const OWNER_WA = '919025415651';
   const GOOGLE_REVIEW = 'https://g.page/r/Cbs8h_sTZv5JEBM/review';
-  const RATING_LABELS = ['','Poor','Fair','Good','Very Good','Excellent'];
 
   let selectedServices = [];
   let selectedRating = 0;
@@ -400,12 +387,6 @@ textarea{resize:vertical;min-height:88px}
     else selectedServices = selectedServices.filter(s => s !== name);
   }
 
-  function setRating(n) {
-    selectedRating = n;
-    document.querySelectorAll('.star-btn').forEach((s,i) => s.classList.toggle('on', i < n));
-    document.getElementById('rating-label').textContent = RATING_LABELS[n] || '';
-  }
-
   function fmtDate(d) {
     if (!d) return '';
     const [y,m,day] = d.split('-');
@@ -417,8 +398,8 @@ textarea{resize:vertical;min-height:88px}
 
   function buildCustomerMsg(d) {
     let msg =
-      `Hello ${d.name}! 🌸\n\n` +
-      `Your appointment with *Sangeetha Makeup Artist* is *Confirmed!* ✅\n\n` +
+      `Hello ${d.name}! 🌸\n` +
+      `Your appointment with *Sangeetha Makeup Artist* is *Confirmed!* ✅\n` +
       `━━━━━━━━━━━━━━━━━━\n` +
       `📋 *Booking ID:* ${d.id}\n` +
       `📅 *Date:* ${d.dateF}\n` +
@@ -427,13 +408,12 @@ textarea{resize:vertical;min-height:88px}
       `💄 *Services:* ${d.services}\n`;
     if (d.area)  msg += `📍 *Area:* ${d.area}\n`;
     if (d.notes) msg += `📝 *Notes:* ${d.notes}\n`;
-    msg += `━━━━━━━━━━━━━━━━━━`;
-    if (d.rating > 0) {
-      msg += `\n\n⭐ *Your Review:* ${'★'.repeat(d.rating)}${'☆'.repeat(5-d.rating)} — ${RATING_LABELS[d.rating]}`;
-      if (d.review) msg += `\n"${d.review}"`;
-      msg += `\n\nThank you for your kind words! 💝`;
-    }
-    msg += `\n\n📝 *Post your Google Review here:*\n${GOOGLE_REVIEW}\n\nPlease arrive 10 minutes early.\nFor queries, reply here.\n\n_Sangeetha Makeup Artist, Chennai_ 🌸`;
+    msg +=
+      `━━━━━━━━━━━━━━━━━━\n` +
+      `Please arrive 10 minutes early.\n` +
+      `For queries, reply here.\n` +
+      `_Sangeetha Makeup Artist, Chennai_ 🌸\n\n` +
+      `⭐ *Leave a Google Review:*\n${GOOGLE_REVIEW}`;
     return msg;
   }
 
@@ -454,10 +434,7 @@ textarea{resize:vertical;min-height:88px}
       `💄 *Services:* ${d.services}\n`;
     if (d.notes) msg += `📝 *Notes:* ${d.notes}\n`;
     msg += `━━━━━━━━━━━━━━━━━━`;
-    if (d.rating > 0) {
-      msg += `\n\n⭐ *Customer Review:* ${'★'.repeat(d.rating)}${'☆'.repeat(5-d.rating)} (${RATING_LABELS[d.rating]})`;
-      if (d.review) msg += `\n"${d.review}"`;
-    }
+
     msg += `\n\n📊 Total bookings: ${allBookings.length}`;
     return msg;
   }
@@ -490,7 +467,7 @@ textarea{resize:vertical;min-height:88px}
   }
 
   function setProgress(step) {
-    for (let i=1;i<=4;i++) {
+    for (let i=1;i<=3;i++) {
       const el = document.getElementById('ps'+i);
       if (!el) continue;
       el.classList.remove('active','done');
@@ -508,7 +485,7 @@ textarea{resize:vertical;min-height:88px}
     const email    = document.getElementById('inp-email').value.trim();
     const area     = document.getElementById('inp-area').value.trim();
     const notes    = document.getElementById('inp-notes').value.trim();
-    const review   = document.getElementById('inp-review').value.trim();
+    const review   = '';
 
     if (!name)     { alert('Please enter your name.'); return; }
     if (!phone)    { alert('Please enter your WhatsApp number.'); return; }
@@ -536,12 +513,6 @@ textarea{resize:vertical;min-height:88px}
     if (area)  { document.getElementById('out-area').textContent  = area;  document.getElementById('tr-area').style.display=''; }
     if (notes) { document.getElementById('out-notes').textContent = notes; document.getElementById('tr-notes').style.display=''; }
 
-    if (selectedRating > 0 || review) {
-      document.getElementById('review-section').style.display = '';
-      document.getElementById('out-stars').textContent = '★'.repeat(selectedRating)+'☆'.repeat(5-selectedRating);
-      document.getElementById('out-review-text').textContent = review || '(No written review)';
-    }
-
     updateExportBtn();
 
     document.getElementById('page-input').classList.remove('active');
@@ -566,7 +537,7 @@ textarea{resize:vertical;min-height:88px}
     ['inp-name','inp-phone','inp-email','inp-area'].forEach(id => document.getElementById(id)?.addEventListener('focus',()=>setProgress(1)));
     ['inp-date','inp-time','inp-occasion'].forEach(id => document.getElementById(id)?.addEventListener('focus',()=>setProgress(2)));
     document.getElementById('pills-wrap')?.addEventListener('click',()=>setProgress(3));
-    document.getElementById('inp-review')?.addEventListener('focus',()=>setProgress(4));
+
   });
 </script>
 </body>
